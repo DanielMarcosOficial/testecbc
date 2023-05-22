@@ -1,1 +1,27 @@
-teste CBC
+<?php
+
+require_once('controllers/ClubesController.php');
+
+// Nova instância do controlador de clubes
+$clubesController = new ClubesController($db);
+
+// Verifica qual função esá sendo chamada
+$chamada = explode("/", $_SERVER['REQUEST_URI']);
+// Verifica o método da requisição
+$method = $_SERVER['REQUEST_METHOD'];
+
+// Roteamento de acordo com o método e o endpoint
+if ($method == 'GET') {
+    // Rota para listar todos os clubes
+    if ($chamada[2] == 'listarTodosClubes') {
+        $clubesController->listarTodosClubes();
+    }
+} elseif ($method == 'POST') {
+    // Rota para cadastrar um novo clube
+    if ($chamada[2] == 'cadastrarClube') {
+        $clubesController->cadastrarClube();
+    }
+} else {
+    // Responde com código de status 405 (Método não permitido) para outros métodos HTTP
+    http_response_code(405);
+}
