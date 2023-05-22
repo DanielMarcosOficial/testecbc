@@ -18,6 +18,13 @@ if ($method == 'GET') {
     if ($chamada[2] == 'listarTodosClubes') {
         $clubesController->listarTodosClubes();
     }
+
+    if ($chamada[2] == '') {
+        http_response_code(200);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => 'Instalação feita com sucesso, volte no git para entender como usar as funções']);
+        exit();
+    }
 } elseif ($method == 'POST') {
     // Rota para cadastrar um novo clube
     if ($chamada[2] == 'cadastrarClube') {
