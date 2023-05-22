@@ -1,9 +1,11 @@
 <?php
 
 require_once('controllers/ClubesController.php');
+require_once('controllers/RecursosController.php');
 
 // Nova instância do controlador de clubes
-$clubesController = new ClubesController($db);
+$clubesController = new ClubesController();
+$recursosController = new RecursosController();
 
 // Verifica qual função esá sendo chamada
 $chamada = explode("/", $_SERVER['REQUEST_URI']);
@@ -20,6 +22,9 @@ if ($method == 'GET') {
     // Rota para cadastrar um novo clube
     if ($chamada[2] == 'cadastrarClube') {
         $clubesController->cadastrarClube();
+    }
+    if ($chamada[2] == 'consumirRecursos') {
+        $recursosController->consumirRecursos();
     }
 } else {
     // Responde com código de status 405 (Método não permitido) para outros métodos HTTP

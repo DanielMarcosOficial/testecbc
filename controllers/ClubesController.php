@@ -4,13 +4,6 @@ require_once('models/Clube.php');
 
 class ClubesController
 {
-    private $db;
-
-    public function __construct($db)
-    {
-        $this->db = $db;
-    }
-
     public function listarTodosClubes()
     {
         try {

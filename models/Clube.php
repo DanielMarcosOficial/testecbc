@@ -80,4 +80,35 @@ class Clube
             throw new Exception('Erro ao cadastrar clube: ' . $e->getMessage());
         }
     }
+
+    //funcao para Verificar saldo do clube
+    public function verificaSaldoClube($id_clube, $valor_consumo)
+    {
+        $query = 'SELECT id, nome_clube, saldo_disponivel FROM cbc_clubes WHERE id = ' . $id_clube;
+        $conexao = $this->db->query($query);
+        $dadosClube = $conexao->fetch(PDO::FETCH_OBJ);
+
+        if ($valor_consumo <= $dadosClube->saldo_disponivel) {
+            return $dadosClube;
+        } else {
+            return false;
+        }
+    }
+
+    //funcao para consumir recurso do clube
+    public function consumirRecursosClube($clube_id, $valor_consumo)
+    {
+        try {
+            $query = 'UPDATE cbc_clubes SET saldo_disponivel = saldo_disponivel-' . $valor_consumo . ' WHERE id = ' . $clube_id;
+            $conexao = $this->db->prepare($query);
+            $conexao->execute();
+
+            $query = 'SELECT id, nome_clube, saldo_disponivel FROM cbc_clubes WHERE id = ' . $clube_id;
+            $conexao = $this->db->query($query);
+            $dadosClube = $conexao->fetch(PDO::FETCH_OBJ);
+            return $dadosClube;
+        } catch (PDOException $e) {
+            throw new Exception('Erro ao atualizar saldo: ' . $e->getMessage());
+        }
+    }
 }
